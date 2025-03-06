@@ -174,7 +174,7 @@ const InvoiceList = () => {
                       <button
                         className="btn"
                         onClick={() =>
-                          (window.location.href = `https://github.com/lev10sa/docs/raw/master/Invoice/${invoice.serie}.xlsx`)
+                          (window.location.href = `https://github.com/competech-id/docs/raw/master/Invoice/${invoice.serie}.xlsx`)
                         }
                         download
                       >
