@@ -105,6 +105,11 @@ export const getPartyByKey = asyncHandler(async (req, res) => {
             $regex: req.params.key,
           },
         },
+        {
+          method: {
+            $regex: req.params.key,
+          },
+        },
       ],
     }).sort({ createdAt: -1 });
     if (!prt) {

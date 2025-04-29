@@ -22,6 +22,9 @@ const prtSchema = mongoose.Schema(
     address: {
       type: String,
     },
+    method: {
+      type: String,
+    },
     file: {
       type: String,
     },
