@@ -140,6 +140,11 @@ function EventPartyList() {
                   ) : (
                     <th>Attachment</th>
                   )}
+                  {parties.find((party) => party.method !== "") ? (
+                    <th>Payment</th>
+                  ) : (
+                    <th>Payment</th>
+                  )}
                   <th>Action</th>
                 </tr>
               </thead>
@@ -173,6 +178,7 @@ function EventPartyList() {
                       </a>
                     </td>
                     <td>{party.address.toUpperCase()}</td>
+                    {party.method !== "" ? <td>{party.method}</td> : <td></td>}
                     {party.file !== "" ? (
                       <td>
                         <a
