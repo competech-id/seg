@@ -135,15 +135,15 @@ function EventPartyList() {
                   <th>Phone</th>
                   <th>Email</th>
                   <th>Address</th>
-                  {parties.find((party) => party.file !== "") ? (
-                    <th>Attachment</th>
-                  ) : (
-                    <th>Attachment</th>
-                  )}
                   {parties.find((party) => party.method !== "") ? (
                     <th>Payment</th>
                   ) : (
-                    <th>Payment</th>
+                    <></>
+                  )}
+                  {parties.find((party) => party.file !== "") ? (
+                    <th>Attachment</th>
+                  ) : (
+                    <></>
                   )}
                   <th>Action</th>
                 </tr>
@@ -178,7 +178,7 @@ function EventPartyList() {
                       </a>
                     </td>
                     <td>{party.address.toUpperCase()}</td>
-                    {party.method !== "" ? <td>{party.method}</td> : <td></td>}
+                    {party.method !== "" ? <td>{party.method}</td> : <></>}
                     {party.file !== "" ? (
                       <td>
                         <a
@@ -190,9 +190,7 @@ function EventPartyList() {
                         </a>
                       </td>
                     ) : (
-                      <td>
-                        <a>No FILE</a>
-                      </td>
+                      <></>
                     )}
                     <td>
                       <button
