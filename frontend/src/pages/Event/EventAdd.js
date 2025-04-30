@@ -18,6 +18,7 @@ function EventAdd() {
     end: "",
     contact: "",
     group: "",
+    type: "",
   });
 
   const handleReset = () => {
@@ -34,6 +35,7 @@ function EventAdd() {
       end: "",
       contact: "",
       group: "",
+      type: "",
     });
   };
 
@@ -112,6 +114,19 @@ function EventAdd() {
                 onChange={handleChange}
                 placeholder="Event Name"
               />
+            </div>
+            <div className="field">
+              <label className="label">Form Type</label>
+              <select
+                name="type"
+                value={eventData.type}
+                onChange={handleChange}
+              >
+                <option value="">--- Select Form Type ---</option>
+                <option value="Registration">Registration</option>
+                <option value="Booking">Booking</option>
+                <option value="Survey">Survey</option>
+              </select>
             </div>
             <div className="field">
               <label className="label">Model</label>

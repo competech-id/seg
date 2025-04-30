@@ -16,6 +16,7 @@ function EventEdit() {
     end: "",
     contact: "",
     group: "",
+    type: "",
   });
 
   // get id from parameter
@@ -119,6 +120,19 @@ function EventEdit() {
                 onChange={handleChange}
                 placeholder="Event Name"
               />
+            </div>
+            <div className="field">
+              <label className="label">Form Type</label>
+              <select
+                name="type"
+                value={eventData.type}
+                onChange={handleChange}
+              >
+                <option value="">--- Select Form Type ---</option>
+                <option value="Registration">Registration</option>
+                <option value="Booking">Booking</option>
+                <option value="Survey">Survey</option>
+              </select>
             </div>
             <div className="field">
               <label className="label">Model</label>

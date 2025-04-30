@@ -37,6 +37,9 @@ const evtSchema = mongoose.Schema(
     group: {
       type: String,
     },
+    type: {
+      type: String,
+    },
   },
   {
     timestamps: true,
