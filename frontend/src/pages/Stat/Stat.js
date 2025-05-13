@@ -6,7 +6,7 @@ import "./Stat.css";
 
 const Stat = () => {
   const [filteredData, setFilteredData] = useState({});
-  const [filter, setFilter] = useState("month");
+  const [filter, setFilter] = useState("");
   const [bestSellingBooks, setBestSellingBooks] = useState([]);
   const [customRange, setCustomRange] = useState({ start: "", end: "" });
   const [isLoading, setIsLoading] = useState(true);
@@ -90,6 +90,8 @@ const Stat = () => {
           return invoices.filter((invoice) => {
             const invoiceDate = new Date(invoice.date);
             switch (range) {
+              case "":
+                return invoiceDate;
               case "today":
                 return invoiceDate.toDateString() === now.toDateString();
               case "week":
@@ -110,10 +112,14 @@ const Stat = () => {
                 );
               case "threeMonths":
                 return now - invoiceDate < 90 * 24 * 60 * 60 * 1000;
+              case "sixMonths":
+                return now - invoiceDate < 180 * 24 * 60 * 60 * 1000;
               case "twelveMonths":
                 return now - invoiceDate < 365 * 24 * 60 * 60 * 1000;
               case "year":
                 return invoiceDate.getFullYear() === now.getFullYear();
+              case "lastYear":
+                return invoiceDate.getFullYear() === now.getFullYear() - 1;
               case "custom":
                 const { start, end } = customRange;
                 return (
@@ -201,13 +207,16 @@ const Stat = () => {
         <h4>Total Sales Insight</h4>
         <div className="section">
           <select value={filter} onChange={(e) => setFilter(e.target.value)}>
+            <option value="">All Time</option>
             <option value="today">Today</option>
             <option value="week">This Week</option>
             <option value="month">This Month</option>
             <option value="lastMonth">Last 1 Month</option>
             <option value="threeMonths">Last 3 Months</option>
+            <option value="sixMonths">Last 6 Months</option>
             <option value="twelveMonths">Last 12 Months</option>
             <option value="year">This Year</option>
+            <option value="lastYear">Last Year</option>
             <option value="custom">Custom Range</option>
           </select>
         </div>

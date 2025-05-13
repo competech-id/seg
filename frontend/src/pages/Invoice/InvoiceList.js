@@ -83,10 +83,14 @@ const InvoiceList = () => {
                   );
                 case "threeMonths":
                   return now - invoiceDate < 90 * 24 * 60 * 60 * 1000;
+                case "sixMonths":
+                  return now - invoiceDate < 180 * 24 * 60 * 60 * 1000;
                 case "twelveMonths":
                   return now - invoiceDate < 365 * 24 * 60 * 60 * 1000;
                 case "year":
                   return invoiceDate.getFullYear() === now.getFullYear();
+                case "lastYear":
+                  return invoiceDate.getFullYear() === now.getFullYear() - 1;
                 case "custom":
                   const { start, end } = customRange;
                   return (
@@ -110,6 +114,7 @@ const InvoiceList = () => {
           const url = `https://seg-server.vercel.app/api/invoices/key/${search}`; // modify URL based on backend
           const datas = await axios.get(url); // get datas from URL with axios
           datas.data.length === 0 ? setIsEmpty(true) : setIsEmpty(false);
+
           const filterInvoicesByDateRange = (invoices, range) => {
             const now = new Date();
             return invoices.filter((invoice) => {
@@ -137,10 +142,14 @@ const InvoiceList = () => {
                   );
                 case "threeMonths":
                   return now - invoiceDate < 90 * 24 * 60 * 60 * 1000;
+                case "sixMonths":
+                  return now - invoiceDate < 180 * 24 * 60 * 60 * 1000;
                 case "twelveMonths":
                   return now - invoiceDate < 365 * 24 * 60 * 60 * 1000;
                 case "year":
                   return invoiceDate.getFullYear() === now.getFullYear();
+                case "lastYear":
+                  return invoiceDate.getFullYear() === now.getFullYear() - 1;
                 case "custom":
                   const { start, end } = customRange;
                   return (
@@ -248,15 +257,17 @@ const InvoiceList = () => {
       </div>
       <div className="section">
         <select value={filter} onChange={(e) => setFilter(e.target.value)}>
+          <option value="">All Time</option>
           <option value="today">Today</option>
           <option value="week">This Week</option>
           <option value="month">This Month</option>
           <option value="lastMonth">Last 1 Month</option>
           <option value="threeMonths">Last 3 Months</option>
+          <option value="sixMonths">Last 6 Months</option>
           <option value="twelveMonths">Last 12 Months</option>
           <option value="year">This Year</option>
+          <option value="lastYear">Last Year</option>
           <option value="custom">Custom Range</option>
-          <option value="">All Time</option>
         </select>
       </div>
       {filter === "custom" && (
