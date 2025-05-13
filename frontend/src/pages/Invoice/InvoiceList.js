@@ -10,6 +10,8 @@ const InvoiceList = () => {
   const [searchs, setSearch] = useState(""); // state for search
   const [isLoading, setIsLoading] = useState(true); // state for loading
   const [isEmpty, setIsEmpty] = useState(false);
+  const [filter, setFilter] = useState("");
+  const [customRange, setCustomRange] = useState({ start: "", end: "" });
 
   const str = searchs;
 
@@ -53,13 +55,110 @@ const InvoiceList = () => {
           const url = `https://seg-server.vercel.app/api/invoices`; // modify URL based on backend
           const datas = await axios.get(url); // get datas from URL with axios
           datas.data.length === 0 ? setIsEmpty(true) : setIsEmpty(false);
-          setInvoices(datas.data);
+
+          const filterInvoicesByDateRange = (invoices, range) => {
+            const now = new Date();
+            return invoices.filter((invoice) => {
+              const invoiceDate = new Date(invoice.date);
+              switch (range) {
+                case "":
+                  return invoiceDate;
+                case "today":
+                  return invoiceDate.toDateString() === now.toDateString();
+                case "week":
+                  return now - invoiceDate < 7 * 24 * 60 * 60 * 1000;
+                case "month":
+                  return (
+                    invoiceDate.getMonth() === now.getMonth() &&
+                    invoiceDate.getFullYear() === now.getFullYear()
+                  );
+                case "lastMonth":
+                  const lastMonthDate = new Date(
+                    now.getFullYear(),
+                    now.getMonth() - 1
+                  );
+                  return (
+                    invoiceDate.getMonth() === lastMonthDate.getMonth() &&
+                    invoiceDate.getFullYear() === lastMonthDate.getFullYear()
+                  );
+                case "threeMonths":
+                  return now - invoiceDate < 90 * 24 * 60 * 60 * 1000;
+                case "twelveMonths":
+                  return now - invoiceDate < 365 * 24 * 60 * 60 * 1000;
+                case "year":
+                  return invoiceDate.getFullYear() === now.getFullYear();
+                case "custom":
+                  const { start, end } = customRange;
+                  return (
+                    invoiceDate >= new Date(start) &&
+                    invoiceDate <= new Date(end)
+                  );
+                default:
+                  return false;
+              }
+            });
+          };
+
+          const filteredInvoices = filterInvoicesByDateRange(
+            datas.data,
+            filter
+          );
+
+          setInvoices(filteredInvoices);
           setIsLoading(false);
         } else {
           const url = `https://seg-server.vercel.app/api/invoices/key/${search}`; // modify URL based on backend
           const datas = await axios.get(url); // get datas from URL with axios
           datas.data.length === 0 ? setIsEmpty(true) : setIsEmpty(false);
-          setInvoices(datas.data);
+          const filterInvoicesByDateRange = (invoices, range) => {
+            const now = new Date();
+            return invoices.filter((invoice) => {
+              const invoiceDate = new Date(invoice.date);
+              switch (range) {
+                case "":
+                  return invoiceDate;
+                case "today":
+                  return invoiceDate.toDateString() === now.toDateString();
+                case "week":
+                  return now - invoiceDate < 7 * 24 * 60 * 60 * 1000;
+                case "month":
+                  return (
+                    invoiceDate.getMonth() === now.getMonth() &&
+                    invoiceDate.getFullYear() === now.getFullYear()
+                  );
+                case "lastMonth":
+                  const lastMonthDate = new Date(
+                    now.getFullYear(),
+                    now.getMonth() - 1
+                  );
+                  return (
+                    invoiceDate.getMonth() === lastMonthDate.getMonth() &&
+                    invoiceDate.getFullYear() === lastMonthDate.getFullYear()
+                  );
+                case "threeMonths":
+                  return now - invoiceDate < 90 * 24 * 60 * 60 * 1000;
+                case "twelveMonths":
+                  return now - invoiceDate < 365 * 24 * 60 * 60 * 1000;
+                case "year":
+                  return invoiceDate.getFullYear() === now.getFullYear();
+                case "custom":
+                  const { start, end } = customRange;
+                  return (
+                    invoiceDate >= new Date(start) &&
+                    invoiceDate <= new Date(end)
+                  );
+                default:
+                  return false;
+              }
+            });
+          };
+
+          const filteredInvoices = filterInvoicesByDateRange(
+            datas.data,
+            filter
+          );
+
+          setInvoices(filteredInvoices);
           setIsLoading(false);
         }
       } catch (error) {
@@ -68,7 +167,7 @@ const InvoiceList = () => {
     };
 
     getInvoices();
-  }, [search]); // dependency array with only `getInvoices`
+  }, [search, filter, customRange]); // dependency array with only `getInvoices`
 
   function formatDate(dateString) {
     // Create a new Date object from the input string
@@ -113,6 +212,7 @@ const InvoiceList = () => {
             placeholder="Search Invoices..."
           />
         </div>
+
         <p>Ditemukan: {invoices.length} data</p>
       </div>
       <div className="section lang">
@@ -146,6 +246,39 @@ const InvoiceList = () => {
           Tulus
         </button>
       </div>
+      <div className="section">
+        <select value={filter} onChange={(e) => setFilter(e.target.value)}>
+          <option value="today">Today</option>
+          <option value="week">This Week</option>
+          <option value="month">This Month</option>
+          <option value="lastMonth">Last 1 Month</option>
+          <option value="threeMonths">Last 3 Months</option>
+          <option value="twelveMonths">Last 12 Months</option>
+          <option value="year">This Year</option>
+          <option value="custom">Custom Range</option>
+          <option value="">All Time</option>
+        </select>
+      </div>
+      {filter === "custom" && (
+        <div className="date-range-container section">
+          <input
+            type="date"
+            value={customRange.start}
+            onChange={(e) =>
+              setCustomRange({ ...customRange, start: e.target.value })
+            }
+          />
+          <span>to</span>
+          <input
+            type="date"
+            value={customRange.end}
+            onChange={(e) =>
+              setCustomRange({ ...customRange, end: e.target.value })
+            }
+          />
+        </div>
+      )}
+      <hr />
       {isLoading ? (
         <div className="section">Loading Invoice Database...</div> // display status when loading
       ) : isEmpty ? (

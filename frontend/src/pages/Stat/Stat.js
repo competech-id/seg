@@ -110,8 +110,10 @@ const Stat = () => {
                 );
               case "threeMonths":
                 return now - invoiceDate < 90 * 24 * 60 * 60 * 1000;
-              case "year":
+              case "twelveMonths":
                 return now - invoiceDate < 365 * 24 * 60 * 60 * 1000;
+              case "year":
+                return invoiceDate.getFullYear() === now.getFullYear();
               case "custom":
                 const { start, end } = customRange;
                 return (
@@ -202,8 +204,9 @@ const Stat = () => {
             <option value="today">Today</option>
             <option value="week">This Week</option>
             <option value="month">This Month</option>
-            <option value="lastMonth">Last One Month</option>
-            <option value="threeMonths">Last Three Months</option>
+            <option value="lastMonth">Last 1 Month</option>
+            <option value="threeMonths">Last 3 Months</option>
+            <option value="twelveMonths">Last 12 Months</option>
             <option value="year">This Year</option>
             <option value="custom">Custom Range</option>
           </select>
