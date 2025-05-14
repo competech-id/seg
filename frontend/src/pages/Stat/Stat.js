@@ -314,7 +314,6 @@ const Stat = () => {
                     <th>Book Name</th>
                     <th>Total Price</th>
                     <th>Total Quantity</th>
-                    <th>Sales Name</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -325,12 +324,10 @@ const Stat = () => {
                         <td>{bookName}</td>
                         <td>{formatCurrency(data.totalPrice)}</td>
                         <td>{data.qty} cps</td>
-                        <td>{data.sales}</td>
                       </tr>
                     ))
                   ) : (
                     <tr>
-                      <td></td>
                       <td></td>
                       <td></td>
                       <td></td>

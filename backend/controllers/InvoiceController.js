@@ -100,8 +100,8 @@ export const getInvoiceByKey = asyncHandler(async (req, res) => {
         {
           bookList: {
             $elemMatch: {
-              bookName: { $regex: req.params.key, $options: "i" },
-              isbn: { $regex: req.params.key, $options: "i" }, // Case-insensitive search
+              bookName: { $regex: req.params.key },
+              isbn: { $regex: req.params.key }, // Case-insensitive search
             },
           },
         },
