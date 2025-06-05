@@ -132,6 +132,7 @@ function EventEdit() {
                 <option value="Registration">Registration</option>
                 <option value="Booking">Booking</option>
                 <option value="Survey">Survey</option>
+                <option value="Agent">Agent</option>
               </select>
             </div>
             <div className="field">

@@ -34,6 +34,9 @@ const prtSchema = mongoose.Schema(
     room: {
       type: String,
     },
+    referral: {
+      type: String,
+    },
   },
   {
     timestamps: true,
