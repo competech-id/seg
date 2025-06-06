@@ -16,6 +16,7 @@ function EventPartyEdit() {
     email: "",
     phone: "",
     address: "",
+    referral: "",
   });
 
   const handleFile = (event) => {
