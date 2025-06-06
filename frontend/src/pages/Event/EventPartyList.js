@@ -132,10 +132,10 @@ function EventPartyList() {
                   ) : (
                     ""
                   )}
-                  {parties.find((party) => party.referral !== "") ? (
-                    <th>Referral</th>
-                  ) : (
+                  {parties.find((party) => party.referral === "") ? (
                     ""
+                  ) : (
+                    <th>Referral</th>
                   )}
                   <th>Phone</th>
                   <th>Email</th>
@@ -163,7 +163,7 @@ function EventPartyList() {
                     <td>{party.company}</td>
                     <td>{party.job}</td>
                     {party.room !== "" ? <td>{party.room}</td> : ""}
-                    {party.referral !== "" ? <td>{party.referral}</td> : ""}
+                    {party.referral === "" ? "" : <td>{party.referral}</td>}
                     <td>
                       <a
                         href={`https://wa.me/${formatWhatsApp(party.phone)}`}
