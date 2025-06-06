@@ -132,6 +132,11 @@ function EventPartyList() {
                   ) : (
                     ""
                   )}
+                  {parties.find((party) => party.referral !== "") ? (
+                    <th>Referral</th>
+                  ) : (
+                    ""
+                  )}
                   <th>Phone</th>
                   <th>Email</th>
                   <th>Address</th>
